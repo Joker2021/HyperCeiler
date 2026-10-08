@@ -39,6 +39,10 @@ jobs:
         )
       )
     runs-on: macos-latest
+    permissions:
+      contents: read
+      packages: read
+    
     name: Build App
     steps:
       - name: Checkout Git Repository
@@ -78,8 +82,12 @@ jobs:
           echo "IS_DEBUG=false" >> $GITHUB_ENV
 
       - name: Build with Gradle (Debug)
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' || github.ref == 'refs/heads/codex/build-debug-apk'
         shell: bash
+        env:
+          GIT_ACTOR: ${{ github.actor }}
+          GIT_TOKEN: ${{ github.token }}
+        
         run: |
           ./gradlew assembleDebug
           echo "IS_DEBUG=true" >> $GITHUB_ENV
