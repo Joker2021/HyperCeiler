@@ -1,5 +1,3 @@
-import org.gradle.kotlin.dsl.implementation
-
 plugins {
     alias(libs.plugins.android.library)
 }
@@ -15,8 +13,8 @@ android {
         minSdk = 35
 
         buildConfigField("String", "APP_MODULE_ID", "\"com.sevtinge.hyperceiler\"")
-        buildConfigField("boolean", "STATUS_BAR_FOLLOW_AVAILABLE", "false")
-        buildConfigField("boolean", "STATUS_BAR_FOLLOW_SERVER_AVAILABLE", "false")
+        buildConfigField("boolean", "STATUS_BAR_FOLLOW_AVAILABLE", "true")
+        buildConfigField("boolean", "STATUS_BAR_FOLLOW_SERVER_AVAILABLE", "true")
     }
 
     buildFeatures {
@@ -39,6 +37,11 @@ android {
         create("canary") {
             buildConfigField("boolean", "STATUS_BAR_FOLLOW_AVAILABLE", statusBarFollowBuildAvailable.toString())
             buildConfigField("boolean", "STATUS_BAR_FOLLOW_SERVER_AVAILABLE", statusBarFollowServerBuildAvailable.toString())
+        }
+    }
+    lint {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(25)
         }
     }
 }
